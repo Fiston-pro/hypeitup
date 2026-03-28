@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // HypeItUp uses Firebase Admin SDK only (server-side). No client reads/writes.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
