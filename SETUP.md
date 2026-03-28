@@ -44,7 +44,9 @@ Firestore may prompt you to create a **composite index** if a query fails; open 
 
 ## 3. Modal.com (AI endpoint)
 
-Your web endpoint should:
+**Full walkthrough (install Modal CLI, HF token, deploy Llama, get URL):** see **[SETUP_MODAL.md](./SETUP_MODAL.md)** and the included app **`modal/hypeitup_llama.py`**.
+
+Your web endpoint must:
 
 - **Method:** `POST`
 - **Content-Type:** `application/json`
@@ -71,31 +73,9 @@ Your web endpoint should:
 }
 ```
 
-### Example: Modal Python stub (`modal.com` SDK)
+Modal’s decorator is **`@modal.fastapi_endpoint`** (older docs may say `@modal.web_endpoint`).
 
-Adjust names to your Modal app; expose a `@web_endpoint` that parses JSON and returns the dict below.
-
-```python
-import modal
-
-app = modal.App("hypeitup")
-
-@app.function()
-@modal.web_endpoint(method="POST")
-def generate(body: dict):
-    achievement = body.get("achievement", "")
-    drama = int(body.get("drama_level", 5))
-    # TODO: call your LLM and build hook/body/hashtags
-    return {
-        "hook": f"Thrilled to share a milestone: {achievement}",
-        "body": "After deep reflection, I’m doubling down on excellence.",
-        "hashtags": ["Leadership", "Growth", "HypeItUp"],
-        "cringe_score": min(100, 30 + drama * 5),
-        "share_title": "Milestone update",
-    }
-```
-
-Deploy Modal, copy the **HTTPS** URL into `MODAL_API_URL`.
+Deploy with `modal deploy modal/hypeitup_llama.py`, then copy the printed **HTTPS** URL into **`MODAL_API_URL`**.
 
 ---
 
