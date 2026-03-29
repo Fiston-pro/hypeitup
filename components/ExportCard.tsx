@@ -21,7 +21,6 @@ export const ExportCard = forwardRef<HTMLDivElement, Props>(function ExportCard(
       className="box-border flex flex-col bg-[#0a0a0a] text-[#f4f4f5]"
       style={{
         width: 1080,
-        height: 1350,
         fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
         padding: 64,
       }}
@@ -64,19 +63,6 @@ export const ExportCard = forwardRef<HTMLDivElement, Props>(function ExportCard(
             </p>
           </div>
         </div>
-        <div
-          style={{
-            border: "1px solid rgba(245,200,66,0.4)",
-            background: "rgba(245,200,66,0.1)",
-            borderRadius: 999,
-            padding: "10px 20px",
-            fontSize: 16,
-            fontWeight: 600,
-            color: "#f5c842",
-          }}
-        >
-          Cringe {Math.round(output.cringe_score)}/100
-        </div>
       </div>
 
       {/* Reality */}
@@ -101,7 +87,6 @@ export const ExportCard = forwardRef<HTMLDivElement, Props>(function ExportCard(
           display: "flex",
           flexDirection: "column",
           gap: 24,
-          overflow: "hidden",
         }}
       >
         <p
@@ -115,10 +100,10 @@ export const ExportCard = forwardRef<HTMLDivElement, Props>(function ExportCard(
         >
           {output.hook}
         </p>
-        <p style={{ fontSize: 22, lineHeight: 1.7, color: "rgba(255,255,255,0.9)", flex: 1 }}>
+        <p style={{ fontSize: 22, lineHeight: 1.7, color: "rgba(255,255,255,0.9)" }}>
           {output.body}
         </p>
-        <p style={{ fontSize: 17, color: "#a3a3a3", marginTop: "auto" }}>{tags}</p>
+        <p style={{ fontSize: 17, color: "#a3a3a3" }}>{tags}</p>
       </div>
 
       {/* Footer */}
