@@ -100,7 +100,7 @@ def extract_json(text: str) -> dict[str, Any]:
     gpu="A10G",
     timeout=60 * 10,
     scaledown_window=60 * 5,
-    secrets=[modal.Secret.from_name("huggingface")],
+    secrets=[modal.Secret.from_name("huggingface-secret")],
 )
 class HypeItUp:
     @modal.enter()
