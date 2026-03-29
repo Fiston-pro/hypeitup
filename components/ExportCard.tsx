@@ -8,7 +8,7 @@ type Props = {
   output: ModalResponse;
 };
 
-/** Fixed 1200×630 canvas for social-style export (hidden off-screen). */
+/** Portrait 1080×1350 canvas for mobile/Instagram-style export (hidden off-screen). */
 export const ExportCard = forwardRef<HTMLDivElement, Props>(function ExportCard(
   { achievement, output },
   ref,
@@ -18,46 +18,113 @@ export const ExportCard = forwardRef<HTMLDivElement, Props>(function ExportCard(
   return (
     <div
       ref={ref}
-      className="box-border flex flex-col justify-between bg-[#0a0a0a] p-10 text-[#f4f4f5]"
+      className="box-border flex flex-col bg-[#0a0a0a] text-[#f4f4f5]"
       style={{
-        width: 1200,
-        height: 630,
+        width: 1080,
+        height: 1350,
         fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
+        padding: 64,
       }}
     >
-      <div className="flex items-center justify-between border-b border-white/10 pb-6">
-        <div className="flex items-center gap-3">
-          <span className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-[#f5c842] bg-[#f5c842]/10 text-2xl font-bold text-[#f5c842]">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-white/10 pb-8">
+        <div className="flex items-center gap-4">
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 64,
+              height: 64,
+              borderRadius: 16,
+              border: "2px solid #f5c842",
+              background: "rgba(245,200,66,0.1)",
+              fontSize: 28,
+              fontWeight: 900,
+              color: "#f5c842",
+            }}
+          >
             H
           </span>
           <div>
             <p
-              className="text-3xl font-bold tracking-tight text-white"
-              style={{ fontFamily: "var(--font-syne), system-ui, sans-serif" }}
+              style={{
+                fontFamily: "var(--font-syne), system-ui, sans-serif",
+                fontSize: 36,
+                fontWeight: 700,
+                color: "#fff",
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
+              }}
             >
-              Hype<span className="text-[#f5c842]">It</span>Up
+              Hype<span style={{ color: "#f5c842" }}>It</span>Up
             </p>
-            <p className="text-sm text-white/50">Your tiny win. Their existential crisis.</p>
+            <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 4 }}>
+              Your tiny win. Their existential crisis.
+            </p>
           </div>
         </div>
-        <p className="rounded-full border border-[#f5c842]/40 bg-[#f5c842]/10 px-4 py-2 text-sm font-semibold text-[#f5c842]">
+        <div
+          style={{
+            border: "1px solid rgba(245,200,66,0.4)",
+            background: "rgba(245,200,66,0.1)",
+            borderRadius: 999,
+            padding: "10px 20px",
+            fontSize: 16,
+            fontWeight: 600,
+            color: "#f5c842",
+          }}
+        >
           Cringe {Math.round(output.cringe_score)}/100
+        </div>
+      </div>
+
+      {/* Reality */}
+      <div style={{ marginTop: 40 }}>
+        <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>
+          Reality
+        </p>
+        <p style={{ marginTop: 10, fontSize: 22, color: "rgba(255,255,255,0.75)" }}>
+          {achievement}
         </p>
       </div>
 
-      <div className="flex flex-1 flex-col gap-6 py-6">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-white/40">Reality</p>
-          <p className="mt-2 text-xl text-white/80">{achievement}</p>
-        </div>
-        <div className="rounded-2xl border border-[#f5c842]/25 bg-[#141414] p-6">
-          <p className="text-sm font-semibold text-[#f5c842]">{output.hook}</p>
-          <p className="mt-3 text-lg leading-relaxed text-white/95">{output.body}</p>
-          <p className="mt-4 text-sm text-[#a3a3a3]">{tags}</p>
-        </div>
+      {/* Post */}
+      <div
+        style={{
+          marginTop: 36,
+          flex: 1,
+          borderRadius: 24,
+          border: "1px solid rgba(245,200,66,0.25)",
+          background: "#141414",
+          padding: 48,
+          display: "flex",
+          flexDirection: "column",
+          gap: 24,
+          overflow: "hidden",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "var(--font-syne), system-ui, sans-serif",
+            fontSize: 26,
+            fontWeight: 700,
+            color: "#f5c842",
+            lineHeight: 1.3,
+          }}
+        >
+          {output.hook}
+        </p>
+        <p style={{ fontSize: 22, lineHeight: 1.7, color: "rgba(255,255,255,0.9)", flex: 1 }}>
+          {output.body}
+        </p>
+        <p style={{ fontSize: 17, color: "#a3a3a3", marginTop: "auto" }}>{tags}</p>
       </div>
 
-      <p className="text-center text-xs text-white/35">HypeItUp · generated satire</p>
+      {/* Footer */}
+      <p style={{ textAlign: "center", fontSize: 14, color: "rgba(255,255,255,0.25)", marginTop: 32 }}>
+        HypeItUp · generated satire · hypeitup.vercel.app
+      </p>
     </div>
   );
 });
