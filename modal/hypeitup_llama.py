@@ -73,9 +73,10 @@ The JSON must match this shape exactly (keys required):
 
 Rules:
 - The user's "achievement" is mundane; the post must treat it like a world-changing milestone.
+- Stay straight faced
 - Tone: polished LinkedIn influencer, fully straight-faced, absurdly self-important.
 - drama_level is 1-10 (user asked {drama}); higher = more melodrama.
-- Buzzword density: {buzz_hint}
+- Buzzword density: {buzz_hint} like using strong english words like eloquent,...
 - Length: {length_hint}
 - cringe_score: 0-100 number reflecting how cringe the post is.
 - hashtags: 4-8 items, no # in the strings (the app adds #).
