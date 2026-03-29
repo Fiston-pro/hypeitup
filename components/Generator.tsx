@@ -11,7 +11,7 @@ const LOADING_MESSAGES = [
   "Warming up the GPU…",
   "Not ChatGPT — this runs on our own model.",
   "Self-hosted on Modal. Cold starts happen.",
-  "Loading Llama weights into VRAM…",
+  "Loading our models weights into VRAM…",
   "Crafting your LinkedIn masterpiece…",
   "Adding the right amount of cringe…",
   "Calibrating buzzword density…",
@@ -290,7 +290,7 @@ export function Generator() {
                 {LOADING_MESSAGES[loadingMsgIdx]}
               </p>
               <p className="mt-0.5 text-xs text-white/40">
-                Running Llama 3.2 on a private GPU · not ChatGPT
+                Running our models on a private GPU · not ChatGPT
               </p>
             </div>
           </div>
