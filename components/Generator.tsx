@@ -1,11 +1,22 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { BuzzwordDensity, ModalResponse, PostLength } from "@/lib/types";
 import { getOrCreateSessionId } from "@/lib/session";
 import { ExamplePrompts } from "./ExamplePrompts";
 import { HypeLogo } from "./HypeLogo";
 import { OutputCard } from "./OutputCard";
+
+const LOADING_MESSAGES = [
+  "Warming up the GPU…",
+  "Not ChatGPT — this runs on our own model.",
+  "Self-hosted on Modal. Cold starts happen.",
+  "Loading Llama weights into VRAM…",
+  "Crafting your LinkedIn masterpiece…",
+  "Adding the right amount of cringe…",
+  "Calibrating buzzword density…",
+  "Almost there. Good things take time.",
+];
 
 const CONTACT_MAIL = "mailto:byiringiroetienne2@gmail.com?subject=HypeItUp%20access";
 
@@ -19,6 +30,8 @@ export function Generator() {
   const [limitMessage, setLimitMessage] = useState<string | null>(null);
   const [remaining, setRemaining] = useState<number | null>(null);
   const [customizeOpen, setCustomizeOpen] = useState(false);
+  const [loadingMsgIdx, setLoadingMsgIdx] = useState(0);
+  const loadingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [result, setResult] = useState<{
     achievement: string;
     output: ModalResponse;
@@ -40,6 +53,20 @@ export function Generator() {
   useEffect(() => {
     void refreshRemaining();
   }, [refreshRemaining]);
+
+  useEffect(() => {
+    if (loading) {
+      setLoadingMsgIdx(0);
+      loadingIntervalRef.current = setInterval(() => {
+        setLoadingMsgIdx((i) => (i + 1) % LOADING_MESSAGES.length);
+      }, 3000);
+    } else {
+      if (loadingIntervalRef.current) clearInterval(loadingIntervalRef.current);
+    }
+    return () => {
+      if (loadingIntervalRef.current) clearInterval(loadingIntervalRef.current);
+    };
+  }, [loading]);
 
   const generate = useCallback(async () => {
     setError(null);
@@ -250,6 +277,28 @@ export function Generator() {
           )}
         </button>
       </div>
+
+      {loading && (
+        <div className="mt-4 rounded-2xl border border-[#f5c842]/20 bg-[#111]/80 px-5 py-4 backdrop-blur">
+          <div className="flex items-center gap-3">
+            <div className="relative h-8 w-8 shrink-0">
+              <span className="absolute inset-0 animate-ping rounded-full bg-[#f5c842]/20" />
+              <span className="absolute inset-1.5 rounded-full bg-[#f5c842]/60 animate-pulse" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white transition-all">
+                {LOADING_MESSAGES[loadingMsgIdx]}
+              </p>
+              <p className="mt-0.5 text-xs text-white/40">
+                Running Llama 3.2 on a private GPU · not ChatGPT
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-white/10">
+            <div className="h-full animate-[loading-bar_3s_ease-in-out_infinite] rounded-full bg-[#f5c842]/70" />
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
