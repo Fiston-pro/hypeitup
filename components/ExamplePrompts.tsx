@@ -4,7 +4,6 @@ const EXAMPLES = [
   "I got my driving license",
   "I went to the gym 3 days in a row",
   "I replied to all my emails",
-  "I bought a standing desk",
 ];
 
 type Props = {

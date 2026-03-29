@@ -1,0 +1,3 @@
+# Install: pip install -r modal/requirements.txt
+# On Windows, use: python -m modal deploy modal/hypeitup_llama.py
+modal>=0.64

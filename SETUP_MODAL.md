@@ -14,8 +14,10 @@ This guide walks you from zero to a **deployed HTTPS endpoint** that runs an **i
 2. **Install the CLI** (in your own machine’s terminal):
 
    ```bash
-   pip install modal
+   pip install -r modal/requirements.txt
    ```
+
+   Or: `pip install modal`
 
 3. **Log in**:
 
@@ -24,6 +26,8 @@ This guide walks you from zero to a **deployed HTTPS endpoint** that runs an **i
    ```
 
    Follow the browser flow and paste the token when asked.
+
+   **Windows:** if `modal` is not on your PATH, use `python -m modal` for every command (e.g. `python -m modal deploy modal/hypeitup_llama.py`).
 
 ## 2. Hugging Face access (Llama is gated)
 
@@ -53,12 +57,16 @@ Modal Secrets keep credentials out of your repo.
 
 Save. The script reads `HF_TOKEN` inside the container.
 
+If you run deploy **before** creating this Secret, Modal will error and print a **direct link** to create `huggingface` in your workspace — open it and add `HF_TOKEN`, then deploy again.
+
 ## 4. Deploy the app
 
 From your **project root** (where this repo lives):
 
 ```bash
 modal deploy modal/hypeitup_llama.py
+# Windows (if needed):
+# python -m modal deploy modal/hypeitup_llama.py
 ```
 
 The first run **builds a large image** (PyTorch + CUDA + transformers) and can take several minutes.

@@ -18,6 +18,7 @@ export function Generator() {
   const [error, setError] = useState<string | null>(null);
   const [limitMessage, setLimitMessage] = useState<string | null>(null);
   const [remaining, setRemaining] = useState<number | null>(null);
+  const [customizeOpen, setCustomizeOpen] = useState(false);
   const [result, setResult] = useState<{
     achievement: string;
     output: ModalResponse;
@@ -112,12 +113,13 @@ export function Generator() {
         </p>
       </header>
 
-      <div className="mb-4 flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm">
-        <span className="text-white/60">Free posts left today</span>
-        <span className="font-mono font-bold text-[#f5c842]">
-          {remaining === null ? "…" : remaining}
+      <p className="mb-4 text-center text-xs text-white/45">
+        Free today{" "}
+        <span className="tabular-nums font-semibold text-[#f5c842]">
+          {remaining === null ? "—" : remaining}
         </span>
-      </div>
+        <span className="text-white/35">/5</span>
+      </p>
 
       <ExamplePrompts
         disabled={loading}
@@ -143,79 +145,94 @@ export function Generator() {
           />
         </label>
 
-        <div>
-          <div className="flex justify-between text-xs font-semibold uppercase tracking-widest text-white/40">
-            <span>Drama level</span>
-            <span className="font-mono text-[#f5c842]">{dramaLevel}/10</span>
-          </div>
-          <input
-            type="range"
-            min={1}
-            max={10}
-            value={dramaLevel}
-            onChange={(e) => setDramaLevel(Number(e.target.value))}
-            disabled={loading}
-            className="mt-2 h-2 w-full cursor-pointer accent-[#f5c842]"
-          />
-        </div>
+        <button
+          type="button"
+          disabled={loading}
+          onClick={() => setCustomizeOpen((o) => !o)}
+          className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5 text-left text-sm font-medium text-white/85 transition hover:bg-white/[0.07] disabled:opacity-50"
+          aria-expanded={customizeOpen}
+        >
+          <span>Customize</span>
+          <span className={`text-white/50 transition ${customizeOpen ? "rotate-180" : ""}`}>▼</span>
+        </button>
 
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-white/40">
-            Buzzword density
-          </span>
-          <div className="mt-2 flex gap-2">
-            {(
-              [
-                ["low", "Low"],
-                ["medium", "Medium"],
-                ["max", "MAX"],
-              ] as const
-            ).map(([v, label]) => (
-              <button
-                key={v}
-                type="button"
+        {customizeOpen && (
+          <div className="space-y-5 border-t border-white/10 pt-5">
+            <div>
+              <div className="flex justify-between text-xs font-semibold uppercase tracking-widest text-white/40">
+                <span>Drama level</span>
+                <span className="font-mono text-[#f5c842]">{dramaLevel}/10</span>
+              </div>
+              <input
+                type="range"
+                min={1}
+                max={10}
+                value={dramaLevel}
+                onChange={(e) => setDramaLevel(Number(e.target.value))}
                 disabled={loading}
-                onClick={() => setBuzzwordDensity(v)}
-                className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold transition ${
-                  buzzwordDensity === v
-                    ? "border-[#f5c842] bg-[#f5c842]/15 text-[#f5c842]"
-                    : "border-white/10 bg-white/5 text-white/75 hover:border-white/20"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
+                className="mt-2 h-2 w-full cursor-pointer accent-[#f5c842]"
+              />
+            </div>
 
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-white/40">
-            Post length
-          </span>
-          <div className="mt-2 flex gap-2">
-            {(
-              [
-                ["short", "Short"],
-                ["medium", "Medium"],
-                ["long", "Long"],
-              ] as const
-            ).map(([v, label]) => (
-              <button
-                key={v}
-                type="button"
-                disabled={loading}
-                onClick={() => setPostLength(v)}
-                className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold transition ${
-                  postLength === v
-                    ? "border-[#f5c842] bg-[#f5c842]/15 text-[#f5c842]"
-                    : "border-white/10 bg-white/5 text-white/75 hover:border-white/20"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-widest text-white/40">
+                Buzzword density
+              </span>
+              <div className="mt-2 flex gap-2">
+                {(
+                  [
+                    ["low", "Low"],
+                    ["medium", "Medium"],
+                    ["max", "MAX"],
+                  ] as const
+                ).map(([v, label]) => (
+                  <button
+                    key={v}
+                    type="button"
+                    disabled={loading}
+                    onClick={() => setBuzzwordDensity(v)}
+                    className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold transition ${
+                      buzzwordDensity === v
+                        ? "border-[#f5c842] bg-[#f5c842]/15 text-[#f5c842]"
+                        : "border-white/10 bg-white/5 text-white/75 hover:border-white/20"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-widest text-white/40">
+                Post length
+              </span>
+              <div className="mt-2 flex gap-2">
+                {(
+                  [
+                    ["short", "Short"],
+                    ["medium", "Medium"],
+                    ["long", "Long"],
+                  ] as const
+                ).map(([v, label]) => (
+                  <button
+                    key={v}
+                    type="button"
+                    disabled={loading}
+                    onClick={() => setPostLength(v)}
+                    className={`flex-1 rounded-xl border px-3 py-2 text-sm font-semibold transition ${
+                      postLength === v
+                        ? "border-[#f5c842] bg-[#f5c842]/15 text-[#f5c842]"
+                        : "border-white/10 bg-white/5 text-white/75 hover:border-white/20"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
 
         <button
           type="button"
@@ -226,10 +243,10 @@ export function Generator() {
           {loading ? (
             <>
               <span className="h-5 w-5 animate-spin rounded-full border-2 border-black/30 border-t-black" />
-              Generating…
+              Hyping…
             </>
           ) : (
-            "Generate hype"
+            "Hype it up"
           )}
         </button>
       </div>
@@ -257,7 +274,9 @@ export function Generator() {
           <h2 className="mb-3 font-heading text-lg font-bold text-white">Your post</h2>
           <OutputCard achievement={result.achievement} output={result.output} />
           <p className="mt-4 text-center text-xs text-white/40">
-            {result.remaining} free {result.remaining === 1 ? "post" : "posts"} left today
+            Free today{" "}
+            <span className="tabular-nums font-semibold text-[#f5c842]">{result.remaining}</span>
+            <span className="text-white/35">/5</span>
           </p>
         </div>
       )}
